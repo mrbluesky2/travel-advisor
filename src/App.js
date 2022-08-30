@@ -10,8 +10,12 @@ import Map from './components/Map/Map';
 function App () {
     const [places, setPlaces] = useState([]);
 
+    const [childClicked, setChildClicked] = useState(null);
+
     const [coordinates, setCoordinates] = useState({});
-    const [bounds, setBounds] = useState(null);
+    const [bounds, setBounds] = useState({});
+
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         // get the user's location on startup
@@ -21,13 +25,13 @@ function App () {
     }, []);
 
     useEffect(() => {
+        setIsLoading(true);
         // get the places when the map changes
-        if (bounds) {
-            getPlacesData(bounds.sw, bounds.ne).then((data) => {
-                console.log(data);
-                setPlaces(data);
-            });
-        }
+        getPlacesData(bounds.sw, bounds.ne).then((data) => {
+            console.log(data);
+            setPlaces(data);
+            setIsLoading(false);
+        });
     }, [bounds]);
 
     return (
@@ -36,13 +40,19 @@ function App () {
             <Header />
             <Grid container spacing={3} style={{ width: '100%' }}>
                 <Grid item xs={12} md={4}>
-                    <List places={places} />
+                    <List
+                        places={places}
+                        childClicked={childClicked}
+                        isLoading={isLoading}
+                    />
                 </Grid>
                 <Grid item xs={12} md={8}>
                     <Map 
                         setCoordinates={setCoordinates}
                         setBounds={setBounds}
                         coordinates={coordinates}
+                        places={places}
+                        setChildClicked={setChildClicked}
                     />
                 </Grid>
             </Grid>
