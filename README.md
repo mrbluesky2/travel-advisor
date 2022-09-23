@@ -1,6 +1,7 @@
 # travel-advisor
 
 Deployed at: https://travel-advisor-mbs.netlify.app/
+
 Project 1 from https://www.youtube.com/watch?v=GDa8kZLNhJ4&t=2293s
 
 ## Getting Started with Create React App
